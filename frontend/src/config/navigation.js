@@ -16,7 +16,7 @@ export const headerNavigation = [
 export const sidebarNavigation = [
   { label: 'Home', icon: '⌂', route: '/agent-center' },
   { label: 'Leads', icon: '♙' },
-  { label: 'Client', icon: '♧' },
+  { label: 'Client', icon: '♧', route: '/clients', activePrefixes: ['/client', '/view-client', '/renewals'] },
   { label: 'Services', icon: '⚑' },
   { label: 'Task', icon: '▣', route: '/agents/new?module=Task' },
   { label: 'Invoice', icon: '▤' },

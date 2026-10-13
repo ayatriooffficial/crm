@@ -1,0 +1,156 @@
+/*
+ * Clients module (from the Practive project), imported by app/globals.css.
+ *
+ * Design tokens measured from the Practive screenshots.
+ * Every colour / size used by components lives here so the visual
+ * language stays consistent and is easy to tune in one place.
+ */
+@theme {
+  --color-brand: #1d6fe3;
+  --color-brand-hover: #175fcb;
+  --color-brand-active: #134fae;
+  --color-brand-soft: #e1ecfb;
+  --color-brand-soft-hover: #d1e2f9;
+
+  --color-page: #f1f4f8;
+  --color-ink: #1e2633;
+  --color-ink-soft: #3f4753;
+  --color-muted: #9aa1ab;
+  --color-placeholder: #848a92;
+  --color-line: #dde2e8;
+  --color-line-strong: #c4cbd4;
+  --color-divider: #e9edf2;
+  --color-focus: #2684ff;
+  --color-danger: #e5484d;
+  --color-option-active: #c8dcf8;
+  --color-toggle-off: #f1f3f5;
+  --color-toggle-off-border: #cfd4da;
+  --color-toggle-knob: #b9bfc6;
+  --color-control-muted: #eef0f3;
+  --color-control-muted-hover: #e2e5e9;
+
+  --text-crumb: 1.6875rem;
+  --text-crumb--line-height: 2.25rem;
+  --text-card-title: 1.5625rem;
+  --text-card-title--line-height: 2rem;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.03);
+  --shadow-header: 0 1px 4px rgb(16 24 40 / 0.07);
+  --shadow-menu: 0 0 0 1px rgb(0 0 0 / 0.08), 0 4px 11px rgb(0 0 0 / 0.1);
+}
+
+/*
+ * Base styles for the Clients module only, scoped to `.clients-module`
+ * (set by app/(clients)/layout.jsx) so other pages keep their own look.
+ */
+@layer base {
+  /*
+   * The original Practive app renders at 80% of these measurements on desktop.
+   * All module sizes are rem-based, so scaling the root scales the module.
+   * Only applied while a Clients page is shown.
+   */
+  @media (min-width: 1024px) {
+    html:has(.clients-module) {
+      font-size: 80%;
+    }
+  }
+
+  /*
+   * `.clients-module-layer` is the root of the module's popups (Modal,
+   * Drawer), which render into <body>, outside the page wrapper.
+   */
+  :is(.clients-module, .clients-module-layer) {
+    @apply text-ink antialiased;
+    font-family: var(--font-noto-sans), 'Noto Sans', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  }
+
+  /* Fills the main area edge to edge (cancels .turia-main padding). */
+  .clients-module {
+    @apply bg-page;
+    margin: -14px -14px -50px;
+    min-height: calc(100dvh - 61px);
+  }
+
+  :is(.clients-module, .clients-module-layer) :is(button:not(:disabled), [role='button']:not([aria-disabled='true']), label[for]) {
+    cursor: pointer;
+  }
+}
+
+/*
+ * Thick rounded grey scrollbar without arrow buttons, as in the original.
+ * Chrome ignores ::-webkit-scrollbar styles when scrollbar-width is set,
+ * so the standard properties are only used where WebKit styling isn't supported (Firefox).
+ */
+@utility scrollbar-slim {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #8b9097;
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: #8b9097 transparent;
+  }
+}
+
+/*
+ * Sidebar variant: the gutter is always reserved (so content never shifts)
+ * and the thumb only appears while the pointer is over the area.
+ */
+@utility scrollbar-hover {
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background: #8b9097;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &:hover {
+      scrollbar-color: #8b9097 transparent;
+    }
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}

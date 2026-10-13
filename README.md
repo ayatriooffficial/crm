@@ -246,3 +246,21 @@ frontend/src/
 - The UI follows the written assignment. It has **not** been compared against the Turia website or the reference screenshot/video, so visual details may differ from the original.
 - The Message template is plain text (no placeholders such as `{{name}}`).
 # Assignment-agent
+
+## Clients module
+
+Brought over from the Practive project. Frontend only, with mock data (no backend calls):
+
+| Route | Page |
+|---|---|
+| `/clients` | Clients list with search, filters and sorting |
+| `/client/new` | New Client form (Basic/Contact Details, Customer Files grids, GSTIN autofill) |
+| `/view-client/[id]` | Client Dashboard with tabs (Details, Services, Tasks, Ledger, …) |
+| `/renewals` | Renewals, opened from a client's Renewals tab |
+
+- Sidebar **Client** opens `/clients` and stays active on every client page.
+- Pages live in `src/app/(clients)/`; the route group adds the module's wrapper without changing URLs.
+- Module code: `src/components/{clients,renewals,ui,icons}`, `src/data`, `src/lib/{cx,gstin,options}.js`.
+  Imports use the `@/` alias from `jsconfig.json`.
+- Styles: `src/styles/clients.css` (imported by `globals.css`). Font, page background and the
+  80% desktop scale are scoped to the module, so the Agent Center pages look unchanged.

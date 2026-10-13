@@ -1,0 +1,23 @@
+/** Dummy existing clients that can receive invoices for a new client. */
+export const BILLING_PROFILES = [
+  { value: 'bp-001', label: 'Apex Auto Works' },
+  { value: 'bp-002', label: 'Asha Kulkarni' },
+  { value: 'bp-003', label: 'Atlas Travels' },
+  { value: 'bp-004', label: 'Bharat Traders' },
+  { value: 'bp-005', label: 'Blue Lagoon Cafe', meta: '#012 | Group: AUDIT' },
+  { value: 'bp-006', label: 'Coastal Exports' },
+  { value: 'bp-007', label: 'Daksh Mehra' },
+  { value: 'bp-008', label: 'Delta Foods' },
+  { value: 'bp-009', label: 'Evergreen Textiles', meta: '#031 | Group: Evergreen Textiles' },
+  { value: 'bp-010', label: 'Falcon Couriers' },
+  { value: 'bp-011', label: 'Greenfield Agro', meta: '#044 | Group: GST Monthly' },
+  { value: 'bp-012', label: 'Harbor Logistics' },
+  { value: 'bp-013', label: 'Indigo Pharma' },
+  { value: 'bp-014', label: 'Jade Jewellers', meta: '#058 | Group: AUDIT' },
+  { value: 'bp-015', label: 'Kiran Industries' },
+  { value: 'bp-016', label: 'Lotus Hardware' },
+  { value: 'bp-017', label: 'Maple Agencies', meta: '#073 | Group: Yearly' },
+  { value: 'bp-018', label: 'Nova Plastics' },
+  { value: 'bp-019', label: 'Orchid Interiors' },
+  { value: 'bp-020', label: 'Pinnacle Steel', meta: '#096 | Group: Pinnacle Steel' },
+];

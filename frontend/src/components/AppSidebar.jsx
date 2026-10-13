@@ -5,8 +5,9 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { sidebarNavigation } from '../config/navigation';
 
-function isActive(path, activeModule, route) {
+function isActive(path, activeModule, route, activePrefixes = []) {
   if (!route) return false;
+  if (activePrefixes.some((prefix) => path.startsWith(prefix))) return true;
   const [pathname, query] = route.split('?');
   const module = new URLSearchParams(query).get('module');
   if (path !== pathname) return false;
@@ -23,10 +24,10 @@ export function AppSidebar() {
 
   return (
     <aside className="turia-rail" aria-label="Main navigation">
-      {sidebarNavigation.map(({ icon, label, route }) => {
+      {sidebarNavigation.map(({ icon, label, route, activePrefixes }) => {
         const content = <><i>{icon}</i><small>{label}</small></>;
         return route
-          ? <Link key={label} href={route} className={isActive(path, module, route) ? 'rail-active' : ''}>{content}</Link>
+          ? <Link key={label} href={route} className={isActive(path, module, route, activePrefixes) ? 'rail-active' : ''}>{content}</Link>
           : <span key={label}>{content}</span>;
       })}
     </aside>
