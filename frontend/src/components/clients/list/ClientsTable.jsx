@@ -68,7 +68,7 @@ function ClientsTable({ rows, sort, onSort, selected, onSelect, onSelectAll, hid
     <div className="scrollbar-slim overflow-x-auto">
       <table className="w-full min-w-[62rem] border-collapse">
         <thead>
-          <tr className="bg-[#f6f8fa]">
+          <tr className="bg-surface">
             <th scope="col" className="w-12 rounded-l-md py-3 pl-2.5 pr-3 text-left">
               <input
                 type="checkbox"
@@ -105,7 +105,7 @@ function ClientsTable({ rows, sort, onSort, selected, onSelect, onSelectAll, hid
                 </th>
               );
             })}
-            <th scope="col" className="sticky right-0 w-16 rounded-r-md bg-[#f6f8fa] px-2 text-center">
+            <th scope="col" className="sticky right-0 w-16 rounded-r-md bg-surface px-2 text-center">
               <ColumnSettings hidden={hidden} onToggle={onToggleColumn} />
             </th>
           </tr>

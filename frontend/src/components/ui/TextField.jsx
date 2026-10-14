@@ -20,6 +20,7 @@ function TextField({
   helper,
   error,
   multiline = false,
+  inline = false,
   format,
   className,
   inputClassName,
@@ -28,7 +29,7 @@ function TextField({
   const Control = multiline ? 'textarea' : 'input';
 
   return (
-    <Field id={id} label={label} required={required} helper={helper} error={error} className={className}>
+    <Field id={id} label={label} required={required} helper={helper} error={error} inline={inline} className={className}>
       <Control
         id={id}
         name={name}

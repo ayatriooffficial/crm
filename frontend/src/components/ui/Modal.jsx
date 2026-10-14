@@ -7,7 +7,7 @@ import { focusRing } from './styles';
 import { cx } from '@/lib/cx';
 
 /** Minimal accessible dialog rendered into <body>. Mounted only while open. */
-export default function Modal({ title, description, onClose, panelClassName = 'max-w-md', children }) {
+export default function Modal({ title, description, onClose, panelClassName = 'max-w-md', divided = true, children }) {
   const titleId = useId();
   const descriptionId = useId();
 
@@ -38,7 +38,7 @@ export default function Modal({ title, description, onClose, panelClassName = 'm
         aria-describedby={description ? descriptionId : undefined}
         className={cx('relative w-full rounded-xl bg-white shadow-xl', panelClassName)}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-divider px-6 py-5">
+        <div className={cx('flex items-start justify-between gap-4 px-6 py-5', divided && 'border-b border-divider')}>
           <div>
             <h2 id={titleId} className="text-[1.375rem] text-ink">
               {title}

@@ -70,11 +70,11 @@ function PhotoPicker({ id, name, value, onChange, labelledBy }) {
         onClick={openPicker}
         aria-label={value ? 'Change photo' : 'Upload photo'}
         className={cx(
-          'mt-3 grid size-12 place-items-center rounded-full bg-[#e9ebee] text-ink transition-colors hover:bg-[#dcdfe3]',
+          'mt-2 grid size-9 place-items-center rounded-full bg-[#e9ebee] text-ink transition-colors hover:bg-[#dcdfe3]',
           focusRing,
         )}
       >
-        <PencilIcon size={20} />
+        <PencilIcon size={16} />
       </button>
 
       <input ref={inputRef} type="file" accept="image/*" tabIndex={-1} className="sr-only" onChange={handleFile} />

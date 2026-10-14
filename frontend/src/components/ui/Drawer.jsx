@@ -35,7 +35,7 @@ export default function Drawer({ title, headerExtra, onClose, bodyClassName, chi
         aria-labelledby={titleId}
         className="absolute inset-y-0 right-0 flex w-[31rem] max-w-full animate-[slide-in_200ms_ease-out] flex-col bg-white shadow-2xl"
       >
-        <div className="flex h-18 shrink-0 items-center gap-2 bg-[#f6f8fa] pl-6 pr-4">
+        <div className="flex h-18 shrink-0 items-center gap-2 bg-surface pl-6 pr-4">
           <h2 id={titleId} className="text-[1.375rem] text-ink">
             {title}
           </h2>

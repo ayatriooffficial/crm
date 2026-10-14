@@ -6,13 +6,16 @@
  * language stays consistent and is easy to tune in one place.
  */
 @theme {
-  --color-brand: #1d6fe3;
-  --color-brand-hover: #175fcb;
-  --color-brand-active: #134fae;
-  --color-brand-soft: #e1ecfb;
-  --color-brand-soft-hover: #d1e2f9;
+  /* Purple brand colour (matches the header's active tab). */
+  --color-brand: #7656df;
+  --color-brand-hover: #6644d4;
+  --color-brand-active: #5636c2;
+  --color-brand-soft: #efebfc;
+  --color-brand-soft-hover: #e3dcfa;
 
-  --color-page: #f1f4f8;
+  /* Warm grey (#F6F4F2) for the page background, table headers and tinted areas. */
+  --color-page: #f6f4f2;
+  --color-surface: #f6f4f2;
   --color-ink: #1e2633;
   --color-ink-soft: #3f4753;
   --color-muted: #9aa1ab;
@@ -20,9 +23,9 @@
   --color-line: #dde2e8;
   --color-line-strong: #c4cbd4;
   --color-divider: #e9edf2;
-  --color-focus: #2684ff;
+  --color-focus: #7656df;
   --color-danger: #e5484d;
-  --color-option-active: #c8dcf8;
+  --color-option-active: #e6e0fb;
   --color-toggle-off: #f1f3f5;
   --color-toggle-off-border: #cfd4da;
   --color-toggle-knob: #b9bfc6;
@@ -64,7 +67,7 @@
     font-family: var(--font-noto-sans), 'Noto Sans', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
   }
 
-  /* Fills the main area edge to edge (cancels .turia-main padding). */
+  /* Fills the main area edge to edge (cancels the main area's padding). */
   .clients-module {
     @apply bg-page;
     margin: -14px -14px -50px;

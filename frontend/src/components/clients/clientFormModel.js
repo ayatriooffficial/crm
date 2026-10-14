@@ -47,6 +47,7 @@ export const initialClientState = {
     group: null,
     pan: '',
     dob: '',
+    referredBy: '',
   },
   contact: {
     mobile: '',

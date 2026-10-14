@@ -5,8 +5,9 @@ import Button from '@/components/ui/Button';
 import Toast from '@/components/ui/Toast';
 import { PlusIcon } from '@/components/icons';
 import { fetchGstinDetails } from '@/lib/gstin';
-import BasicDetailsCard from './BasicDetailsCard';
-import ContactDetailsCard from './ContactDetailsCard';
+import FormSection from '@/components/ui/FormSection';
+import BasicDetailsFields from './BasicDetailsFields';
+import ContactDetailsFields from './ContactDetailsFields';
 import CustomerFilesCard from './CustomerFilesCard';
 import AutofillGstinDialog from './AutofillGstinDialog';
 import { clientFormReducer, firstInvalidFieldId, initialClientState, validateClient } from './clientFormModel';
@@ -78,20 +79,25 @@ export default function ClientForm({ breadcrumb }) {
   return (
     <>
       <form noValidate onSubmit={handleSubmit} aria-label="New client">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
           {breadcrumb}
           <Button onClick={openGstinDialog} icon={<PlusIcon size={18} />} className="max-sm:w-full">
             Autofill Using GSTIN
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-7.5 xl:grid-cols-2">
-          <BasicDetailsCard values={state.basic} errors={state.errors.basic} dispatch={dispatch} />
-          <ContactDetailsCard values={state.contact} errors={state.errors.contact} dispatch={dispatch} />
+        {/* One white panel holding bordered sections. */}
+        <div className="space-y-4 rounded-xl border border-line bg-white p-3 shadow-card sm:p-4">
+          <FormSection title="Client Info">
+            <div className="grid grid-cols-1 gap-x-10 gap-y-3 @4xl:grid-cols-2">
+              <BasicDetailsFields values={state.basic} errors={state.errors.basic} dispatch={dispatch} />
+              <ContactDetailsFields values={state.contact} errors={state.errors.contact} dispatch={dispatch} />
+            </div>
+          </FormSection>
           <CustomerFilesCard values={state.customerFiles} dispatch={dispatch} />
         </div>
 
-        <div className="mt-7.5 flex items-center gap-4">
+        <div className="mt-5 flex items-center gap-4">
           <Button type="submit" loading={state.status === 'saving'}>
             {state.status === 'saving' ? 'Saving…' : 'Save'}
           </Button>

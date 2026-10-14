@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useCallback, useId, useState } from 'react';
-import Card from '@/components/ui/Card';
+import FormSection from '@/components/ui/FormSection';
 import { controlClass, focusRing } from '@/components/ui/styles';
 import { CloseIcon, EyeIcon, EyeOffIcon, TrashIcon, UploadIcon } from '@/components/icons';
 import { CUSTOMER_FILE_SECTIONS } from '@/data/customerFiles';
@@ -32,7 +32,7 @@ function CustomerFilesCard({ values, dispatch }) {
   const removeRow = useCallback((section, key) => dispatch({ type: 'removeFileRow', section, key }), [dispatch]);
 
   return (
-    <Card title="Customer Files" className="xl:col-span-2" bodyClassName="space-y-8 px-5 pt-8 pb-10 sm:px-[2.375rem]">
+    <FormSection title="Customer Files" bodyClassName="space-y-5">
       {CUSTOMER_FILE_SECTIONS.map((section) => (
         <SectionGrid
           key={section.value}
@@ -42,7 +42,7 @@ function CustomerFilesCard({ values, dispatch }) {
           onRemove={removeRow}
         />
       ))}
-    </Card>
+    </FormSection>
   );
 }
 
@@ -52,13 +52,13 @@ const SectionGrid = memo(function SectionGrid({ section, rows, onChange, onRemov
 
   return (
     <section aria-labelledby={headingId}>
-      <h3 id={headingId} className="mb-3 text-lg font-medium text-ink">
+      <h3 id={headingId} className="mb-2 text-lg font-medium text-ink">
         {label}
       </h3>
       <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full min-w-max border-collapse text-sm" onKeyDown={moveDownOnEnter}>
           <thead>
-            <tr className="bg-brand text-left text-white">
+            <tr className="bg-surface text-left text-ink">
               <th scope="col" className="w-10 px-2 py-2.5 text-center font-medium">
                 #
               </th>
@@ -219,7 +219,7 @@ function SecretCell({ value, onChange, ...rest }) {
 function FileCell({ label, file, onChange }) {
   if (file) {
     return (
-      <span className="flex h-9 items-center gap-1 rounded-md border border-line bg-[#f6f8fa] pl-2 text-sm text-ink">
+      <span className="flex h-9 items-center gap-1 rounded-md border border-line bg-surface pl-2 text-sm text-ink">
         <span className="min-w-0 flex-1 truncate" title={file.name}>
           {file.name}
         </span>

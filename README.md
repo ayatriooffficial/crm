@@ -260,13 +260,16 @@ Brought over from the Practive project. Frontend only, with mock data (no backen
 | Route | Page |
 |---|---|
 | `/clients` | Clients list with search, filters and sorting |
-| `/client/new` | New Client form (Basic/Contact Details, Customer Files grids, GSTIN autofill) |
+| `/client/new` | Add Client form (bordered sections, labels beside fields): one compact Client Info section (basic + contact fields, incl. Referred By), Customer Files grids, GSTIN autofill |
 | `/view-client/[id]` | Client Dashboard with tabs (Details, Services, Tasks, Ledger, …) |
 | `/renewals` | Renewals, opened from a client's Renewals tab |
+| `/leads` | Leads: spreadsheet-style table of every field (column menu: sort, hide, manage columns), search, multi-select delete, rows per page, Add/Edit Lead form (fields from the PromoterMaster sheet) |
 
 - Sidebar **Client** opens `/clients` and stays active on every client page.
+- Sidebar **Leads** opens `/leads`. Leads are frontend-only for now: they are kept in the browser's
+  localStorage (attachments keep only the file name, the photo a small thumbnail) until a backend API exists.
 - Pages live in `src/app/(clients)/`; the route group adds the module's wrapper without changing URLs.
-- Module code: `src/components/{clients,renewals,ui,icons}`, `src/data`, `src/lib/{cx,gstin,options}.js`.
+- Module code: `src/components/{clients,leads,renewals,ui,icons}`, `src/data`, `src/lib/{cx,gstin,options}.js`.
   Imports use the `@/` alias from `jsconfig.json`.
-- Styles: `src/styles/clients.css` (imported by `globals.css`). Font, page background and the
+- Styles: `src/styles/clients.css` (imported by `globals.css`); the module uses purple as its brand colour and `#F6F4F2` (`surface`) for table headers and tinted areas. Font, page background and the
   80% desktop scale are scoped to the module, so the Agent Center pages look unchanged.
