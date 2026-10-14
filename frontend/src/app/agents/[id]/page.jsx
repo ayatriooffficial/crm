@@ -13,16 +13,32 @@ export default function AgentDetail() {
   const { id } = useParams();
   const [agent, setAgent] = useState(null);
   const [runs, setRuns] = useState([]);
+  const [historyUnavailable, setHistoryUnavailable] = useState(false);
   const [error, setError] = useState('');
+  const [historyError, setHistoryError] = useState('');
   const [notice, setNotice] = useState(null); // { type, text }
   const [busy, setBusy] = useState(false);
   const [openRun, setOpenRun] = useState(null);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (userInitiated = false) => {
+    setError('');
+    setHistoryError('');
     try {
-      const [a, r] = await Promise.all([getAgent(id), getAgentHistory(id)]);
-      setAgent(a); setRuns(r); setError('');
-    } catch (e) { setError(e.message); }
+      const [agentResult, historyResult] = await Promise.allSettled([
+        getAgent(id, { userInitiated }),
+        getAgentHistory(id, { userInitiated }),
+      ]);
+      if (agentResult.status === 'fulfilled') setAgent(agentResult.value);
+      else if (userInitiated) setError(agentResult.reason.message);
+      if (historyResult.status === 'fulfilled') {
+        setRuns(historyResult.value);
+        setHistoryUnavailable(false);
+      }
+      else {
+        setHistoryUnavailable(true);
+        if (userInitiated) setHistoryError(historyResult.reason.message);
+      }
+    } catch (e) { if (userInitiated) setError(e.message); }
   }, [id]);
   useEffect(() => { load(); }, [load]);
 
@@ -56,7 +72,7 @@ export default function AgentDetail() {
     return (
       <>
         <Link href="/agent-center" className="text-sm text-violet-700">← Agent Center</Link>
-        <p role={error ? 'alert' : undefined} className="mt-6">{error || 'Loading agent…'}</p>
+        {error ? <div role="alert" className="mt-6 rounded-lg bg-rose-50 p-3 text-sm text-rose-700"><p>{error}</p><button type="button" onClick={() => load(true)} className="mt-3 rounded-lg bg-rose-600 px-4 py-2 font-semibold text-white">Try again</button></div> : <p className="mt-6">{agent === null ? 'Agent details are unavailable.' : 'Loading agent…'}</p>}
       </>
     );
   }
@@ -92,6 +108,7 @@ export default function AgentDetail() {
 
         {notice && <p role={notice.type === 'error' ? 'alert' : 'status'} className={`mt-5 rounded-lg p-3 text-sm ${notice.type === 'error' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-800'}`}>{notice.text}</p>}
         {error && <p role="alert" className="mt-5 rounded-lg bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}
+        {historyError && <p role="alert" className="mt-5 rounded-lg bg-rose-50 p-3 text-sm text-rose-700">{historyError} <button type="button" onClick={load} className="ml-2 font-semibold underline">Retry</button></p>}
         {agent.status === 'published' && <p className="mt-5 text-xs text-slate-500">Published agents are read-only. Test runs are simulated and send nothing.</p>}
         {agent.status === 'disabled' && <p className="mt-5 text-xs text-slate-500">This agent is disabled. It cannot be edited, published, or test-run.</p>}
 
@@ -116,7 +133,9 @@ export default function AgentDetail() {
             <h2 className="font-bold">Recent test runs (simulated)</h2>
             <Link href="/history" className="text-sm font-semibold text-violet-700">All history →</Link>
           </div>
-          {runs.length === 0 ? (
+          {historyUnavailable ? (
+            <p className="mt-5 text-sm text-slate-500">History data is unavailable.</p>
+          ) : runs.length === 0 ? (
             <p className="mt-5 text-sm text-slate-500">No runs yet. Publish this agent and run a test to create history.</p>
           ) : (
             <div className="mt-4 space-y-3">

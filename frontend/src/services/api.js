@@ -1,28 +1,46 @@
 // The ONLY place that calls fetch(). Everything else goes through agentApi.js.
 const BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api').replace(/\/$/, '');
 
+export class ApiError extends Error {
+  constructor(message, { status = null, network = false } = {}) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.network = network;
+  }
+}
+
 export async function api(path, options = {}) {
+  const { userInitiated = false, ...requestOptions } = options;
   let response;
   try {
     response = await fetch(`${BASE}${path}`, {
-      ...options,
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+      ...requestOptions,
+      headers: { 'Content-Type': 'application/json', ...(requestOptions.headers || {}) },
       cache: 'no-store',
     });
   } catch (error) {
     // Browser fetch rejects for unreachable servers and blocked CORS requests.
     const reason = error instanceof Error && error.message ? ` (${error.message})` : '';
-    throw new Error(`Network request failed for ${BASE}${path}${reason}. Check that the backend is running and CORS allows this frontend origin.`);
+    const message = userInitiated
+      ? 'Backend is unavailable. Please start the backend server and try again.'
+      : 'The requested data is currently unavailable.';
+    throw new ApiError(`${message}${userInitiated ? reason : ''}`, { network: true });
   }
   let payload;
   try {
     payload = await response.json();
   } catch {
-    throw new Error(`Server returned an invalid response for ${BASE}${path} (HTTP ${response.status}).`);
+    throw new ApiError(`The server returned an invalid response (HTTP ${response.status}).`, { status: response.status });
   }
   if (!response.ok || payload.success === false) {
     const message = payload.error?.message || `Request failed (HTTP ${response.status}).`;
-    throw new Error(`${message} [${response.status} ${response.statusText}]`);
+    const prefix = response.status === 400 ? 'Validation failed'
+      : response.status === 404 ? 'The requested resource was not found'
+        : response.status === 409 ? 'This operation conflicts with the current agent state'
+          : response.status >= 500 ? 'The backend could not complete this request'
+            : 'Request failed';
+    throw new ApiError(`${prefix}: ${message} [HTTP ${response.status}]`, { status: response.status });
   }
   return payload.data;
 }
